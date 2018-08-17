@@ -15,7 +15,7 @@ import co.il.nmh.compare.files.exceptions.DuplicateScannerException;
 import co.il.nmh.compare.files.exceptions.PersistenceException;
 import co.il.nmh.compare.files.gui.listeners.DuplicateScannerListener;
 import co.il.nmh.compare.files.persistence.FilesDAO;
-import co.il.nmh.compare.files.utils.Signature;
+import co.il.nmh.easy.utils.FileUtils;
 
 /**
  * @author Maor Hamami
@@ -226,7 +226,7 @@ public class DuplicateScanner extends Thread
 
 				duplicateScannerListener.updateProgress(i++, total, "Checking " + file.getName());
 
-				String baseSignature = Signature.getBaseSignature(new File(file.getLocation()));
+				String baseSignature = FileUtils.getBaseSignature(new File(file.getLocation()));
 
 				if (!filesByBaseSignature.containsKey(baseSignature))
 				{
@@ -265,7 +265,7 @@ public class DuplicateScanner extends Thread
 						break;
 					}
 
-					String fullSignature = Signature.getFullSignature(baseSignature, new File(file.getLocation()));
+					String fullSignature = FileUtils.getFullSignature(baseSignature, new File(file.getLocation()));
 
 					if (!filesByFullSignature.containsKey(fullSignature))
 					{
