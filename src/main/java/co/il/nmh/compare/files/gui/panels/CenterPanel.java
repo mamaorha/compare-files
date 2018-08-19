@@ -10,29 +10,25 @@ import javax.swing.border.EtchedBorder;
 import co.il.nmh.compare.files.gui.listeners.ScanListener;
 import co.il.nmh.compare.files.gui.panels.center.DirectoryPanel;
 import co.il.nmh.compare.files.gui.panels.center.FilterPanel;
+import co.il.nmh.easy.swing.components.gui.EasyPanel;
 
 /**
  * @author Maor Hamami
  */
 
-public class CenterPanel extends JPanel
+public class CenterPanel extends EasyPanel
 {
 	private static final long serialVersionUID = 293004992088468591L;
 
 	protected DirectoryPanel directoryPanel;
 	protected FilterPanel filterPanel;
 
-	public CenterPanel()
+	@Override
+	protected void buildPanel()
 	{
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 
-		buildPanel();
-		addEvents();
-	}
-
-	private void buildPanel()
-	{
 		directoryPanel = new DirectoryPanel();
 		filterPanel = new FilterPanel();
 
@@ -52,7 +48,8 @@ public class CenterPanel extends JPanel
 		add(space, gridBagConstraints);
 	}
 
-	private void addEvents()
+	@Override
+	protected void addEvents()
 	{
 		directoryPanel.addDirectoryChangedListener(filterPanel);
 	}

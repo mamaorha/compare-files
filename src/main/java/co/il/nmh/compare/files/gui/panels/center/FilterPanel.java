@@ -9,16 +9,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import co.il.nmh.compare.files.gui.listeners.DirectoryChangedListener;
 import co.il.nmh.compare.files.gui.listeners.ScanListener;
+import co.il.nmh.easy.swing.components.gui.EasyPanel;
 
 /**
  * @author Maor Hamami
  */
 
-public class FilterPanel extends JPanel implements DirectoryChangedListener
+public class FilterPanel extends EasyPanel implements DirectoryChangedListener
 {
 	private static final long serialVersionUID = 3634935066206209437L;
 
@@ -32,17 +32,17 @@ public class FilterPanel extends JPanel implements DirectoryChangedListener
 	protected Set<ScanListener> scanListeners;
 	protected String directory;
 
-	public FilterPanel()
+	@Override
+	protected void init(Object[] params)
+	{
+		scanListeners = new HashSet<>();
+	}
+
+	@Override
+	protected void buildPanel()
 	{
 		setLayout(new GridBagLayout());
 
-		scanListeners = new HashSet<>();
-		buildPanel();
-		addEvents();
-	}
-
-	private void buildPanel()
-	{
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();
 		gridBagConstraints.gridy++;
 
@@ -60,7 +60,8 @@ public class FilterPanel extends JPanel implements DirectoryChangedListener
 		add(scanBtn, gridBagConstraints);
 	}
 
-	private void addEvents()
+	@Override
+	protected void addEvents()
 	{
 		scanBtn.addActionListener(new ActionListener()
 		{

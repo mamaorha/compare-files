@@ -6,15 +6,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import co.il.nmh.compare.files.gui.listeners.TableActionListener;
+import co.il.nmh.easy.swing.components.gui.EasyPanel;
 
 /**
  * @author Maor Hamami
  */
 
-public class TableActionPanel extends JPanel
+public class TableActionPanel extends EasyPanel
 {
 	private static final long serialVersionUID = -3550070229059969654L;
 
@@ -24,15 +24,14 @@ public class TableActionPanel extends JPanel
 
 	protected Set<TableActionListener> tableActionListeners;
 
-	public TableActionPanel()
+	@Override
+	protected void init(Object[] params)
 	{
 		tableActionListeners = new HashSet<>();
-
-		buildPanel();
-		addEvents();
 	}
 
-	private void buildPanel()
+	@Override
+	protected void buildPanel()
 	{
 		prevBtn = new JButton("Prev");
 		prevBtn.setEnabled(false);
@@ -48,7 +47,8 @@ public class TableActionPanel extends JPanel
 		add(deleteAllBtn);
 	}
 
-	private void addEvents()
+	@Override
+	protected void addEvents()
 	{
 		prevBtn.addActionListener(new ActionListener()
 		{

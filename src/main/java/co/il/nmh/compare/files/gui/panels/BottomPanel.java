@@ -5,32 +5,28 @@ import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
 import co.il.nmh.compare.files.gui.panels.bottom.ProggressPanel;
+import co.il.nmh.easy.swing.components.gui.EasyPanel;
 
 /**
  * @author Maor Hamami
  */
 
-public class BottomPanel extends JPanel
+public class BottomPanel extends EasyPanel
 {
 	private static final long serialVersionUID = 7281231225552104317L;
 
 	protected JLabel statusLbl;
 	protected ProggressPanel proggressPanel;
 
-	public BottomPanel()
+	@Override
+	protected void buildPanel()
 	{
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 
-		buildPanel();
-	}
-
-	private void buildPanel()
-	{
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();
 		gridBagConstraints.gridy++;
 

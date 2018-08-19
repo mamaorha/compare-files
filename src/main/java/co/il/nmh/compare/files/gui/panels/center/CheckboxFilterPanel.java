@@ -1,25 +1,22 @@
 package co.il.nmh.compare.files.gui.panels.center;
 
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
+
+import co.il.nmh.easy.swing.components.gui.EasyPanel;
 
 /**
  * @author Maor Hamami
  */
 
-public class CheckboxFilterPanel extends JPanel
+public class CheckboxFilterPanel extends EasyPanel
 {
 	private static final long serialVersionUID = -5676162118281086301L;
 
 	protected JCheckBox subDirectoriesCb;
 	protected JCheckBox fullSignatureCb;
 
-	public CheckboxFilterPanel()
-	{
-		buildPanel();
-	}
-
-	private void buildPanel()
+	@Override
+	protected void buildPanel()
 	{
 		subDirectoriesCb = new JCheckBox("Sub Directories");
 		subDirectoriesCb.setSelected(true);

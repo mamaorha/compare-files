@@ -6,7 +6,7 @@ import co.il.nmh.compare.files.gui.GUI;
  * @author Maor Hamami
  */
 
-public class CompareFIlesMain
+public class CompareFilesMain
 {
 	public static void main(String[] args)
 	{

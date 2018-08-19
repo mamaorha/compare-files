@@ -1,16 +1,9 @@
 package co.il.nmh.compare.files.gui;
 
-import java.awt.Dimension;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JFrame;
 
 import co.il.nmh.compare.files.core.DuplicateScanner;
 import co.il.nmh.compare.files.data.CFile;
@@ -19,12 +12,13 @@ import co.il.nmh.compare.files.gui.listeners.ScanListener;
 import co.il.nmh.compare.files.gui.panels.BottomPanel;
 import co.il.nmh.compare.files.gui.panels.CenterPanel;
 import co.il.nmh.compare.files.gui.panels.TopPanel;
+import co.il.nmh.easy.swing.components.gui.EasyFrame;
 
 /**
  * @author Maor Hamami
  */
 
-public class GUI extends JFrame implements ScanListener, DuplicateScannerListener
+public class GUI extends EasyFrame implements ScanListener, DuplicateScannerListener
 {
 	private static final long serialVersionUID = -4834867658681140678L;
 
@@ -36,23 +30,12 @@ public class GUI extends JFrame implements ScanListener, DuplicateScannerListene
 
 	public GUI()
 	{
-		setTitle("Compare Files");
+		super("Compare Files", 1.2, 4);
 
-		buildPanel();
-		addEvents();
-
-		pack();
-		setVisible(true);
-
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		int height = gd.getDisplayMode().getHeight();
-		height -= height / 1.2;
-
-		setMinimumSize(new Dimension(gd.getDisplayMode().getWidth() / 4, height));
-		setLocationRelativeTo(null);
 	}
 
-	private void buildPanel()
+	@Override
+	protected void buildPanel()
 	{
 		setLayout(new GridBagLayout());
 
@@ -78,24 +61,40 @@ public class GUI extends JFrame implements ScanListener, DuplicateScannerListene
 		add(bottomPanel, gridBagConstraints);
 	}
 
-	private void addEvents()
+	@Override
+	protected void addEvents()
 	{
-		this.addWindowListener(new WindowAdapter()
-		{
-			@Override
-			public void windowClosing(WindowEvent e)
-			{
-				System.exit(0);
-			}
-		});
-
 		centerPanel.addScanListener(this);
 	}
 
-	public void lockGUI(boolean lock)
+	@Override
+	public void updateProgress(int current, int maximum)
 	{
-		topPanel.lockGUI(lock);
-		centerPanel.lockGUI(lock);
+		updateProgress(current, maximum, null);
+	}
+
+	@Override
+	public void updateProgress(int current, int maximum, String status)
+	{
+		if (null != status)
+		{
+			bottomPanel.updateStatus(status);
+		}
+
+		bottomPanel.updateProgress(current, maximum);
+	}
+
+	@Override
+	public void done(Map<String, List<CFile>> duplicates)
+	{
+		topPanel.setDuplicates(duplicates);
+		centerPanel.stopScan("done");
+	}
+
+	@Override
+	public void failed(String failure)
+	{
+		centerPanel.stopScan(failure);
 	}
 
 	@Override
@@ -128,33 +127,9 @@ public class GUI extends JFrame implements ScanListener, DuplicateScannerListene
 		bottomPanel.updateStatus(status);
 	}
 
-	@Override
-	public void updateProgress(int current, int maximum)
+	public void lockGUI(boolean lock)
 	{
-		updateProgress(current, maximum, null);
-	}
-
-	@Override
-	public void updateProgress(int current, int maximum, String status)
-	{
-		if (null != status)
-		{
-			bottomPanel.updateStatus(status);
-		}
-
-		bottomPanel.updateProgress(current, maximum);
-	}
-
-	@Override
-	public void done(Map<String, List<CFile>> duplicates)
-	{
-		topPanel.setDuplicates(duplicates);
-		centerPanel.stopScan("done");
-	}
-
-	@Override
-	public void failed(String failure)
-	{
-		centerPanel.stopScan(failure);
+		topPanel.lockGUI(lock);
+		centerPanel.lockGUI(lock);
 	}
 }

@@ -8,9 +8,9 @@ import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import co.il.nmh.compare.files.gui.listeners.DirectoryChangedListener;
+import co.il.nmh.easy.swing.components.gui.EasyPanel;
 import co.il.nmh.easy.swing.components.text.EasyTextField;
 import co.il.nmh.easy.swing.components.text.listeners.TextChangedListener;
 
@@ -18,7 +18,7 @@ import co.il.nmh.easy.swing.components.text.listeners.TextChangedListener;
  * @author Maor Hamami
  */
 
-public class DirectoryPanel extends JPanel
+public class DirectoryPanel extends EasyPanel
 {
 	private static final long serialVersionUID = 2148749816771804492L;
 
@@ -29,15 +29,14 @@ public class DirectoryPanel extends JPanel
 	protected String lastDirectory = ".";
 	protected Set<DirectoryChangedListener> directoryChangedListeners;
 
-	public DirectoryPanel()
+	@Override
+	protected void init(Object[] params)
 	{
 		directoryChangedListeners = new HashSet<>();
-
-		buildPanel();
-		addEvents();
 	}
 
-	private void buildPanel()
+	@Override
+	protected void buildPanel()
 	{
 		workDirLbl = new JLabel("Working Dir:");
 		add(workDirLbl);
@@ -49,7 +48,8 @@ public class DirectoryPanel extends JPanel
 		add(changeDirBtn);
 	}
 
-	private void addEvents()
+	@Override
+	protected void addEvents()
 	{
 		changeDirBtn.addActionListener(new ActionListener()
 		{

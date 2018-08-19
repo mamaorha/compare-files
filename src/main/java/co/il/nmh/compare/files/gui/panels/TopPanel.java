@@ -20,12 +20,13 @@ import co.il.nmh.compare.files.gui.listeners.TableActionListener;
 import co.il.nmh.compare.files.gui.listeners.TableItemDeleteListener;
 import co.il.nmh.compare.files.gui.panels.top.TableActionPanel;
 import co.il.nmh.easy.swing.components.EasyScrollPane;
+import co.il.nmh.easy.swing.components.gui.EasyPanel;
 
 /**
  * @author Maor Hamami
  */
 
-public class TopPanel extends JPanel implements TableActionListener, TableItemDeleteListener
+public class TopPanel extends EasyPanel implements TableActionListener, TableItemDeleteListener
 {
 	private static final long serialVersionUID = -4028289385974735039L;
 
@@ -37,17 +38,12 @@ public class TopPanel extends JPanel implements TableActionListener, TableItemDe
 	protected int curr;
 	protected List<TableItem> tableItems;
 
-	public TopPanel()
+	@Override
+	protected void buildPanel()
 	{
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 
-		buildPanel();
-		addEvents();
-	}
-
-	private void buildPanel()
-	{
 		filesTable = new FilesTable();
 		tableActionPanel = new TableActionPanel();
 
@@ -75,7 +71,8 @@ public class TopPanel extends JPanel implements TableActionListener, TableItemDe
 		add(tableActionPanel, gridBagConstraints);
 	}
 
-	private void addEvents()
+	@Override
+	protected void addEvents()
 	{
 		tableActionPanel.addTableActionListener(this);
 		filesTable.addTableItemDeleteListener(this);
