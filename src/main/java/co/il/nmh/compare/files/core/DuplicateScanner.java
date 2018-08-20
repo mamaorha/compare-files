@@ -15,13 +15,14 @@ import co.il.nmh.compare.files.exceptions.DuplicateScannerException;
 import co.il.nmh.compare.files.exceptions.PersistenceException;
 import co.il.nmh.compare.files.gui.listeners.DuplicateScannerListener;
 import co.il.nmh.compare.files.persistence.FilesDAO;
+import co.il.nmh.easy.utils.EasyThread;
 import co.il.nmh.easy.utils.FileUtils;
 
 /**
  * @author Maor Hamami
  */
 
-public class DuplicateScanner extends Thread
+public class DuplicateScanner extends EasyThread
 {
 	private static final int MAX_DATA = 1000; // maximum amount of data to hold before putting it into db
 
@@ -33,6 +34,8 @@ public class DuplicateScanner extends Thread
 
 	public DuplicateScanner(DuplicateScannerListener duplicateScannerListener, String directory, String filter, boolean subDirectories, boolean fullSignature)
 	{
+		super("DuplicateScanner");
+
 		this.duplicateScannerListener = duplicateScannerListener;
 		this.subDirectories = subDirectories;
 		this.fullSignature = fullSignature;
@@ -58,7 +61,7 @@ public class DuplicateScanner extends Thread
 	}
 
 	@Override
-	public void run()
+	public boolean loopRun()
 	{
 		duplicateScannerListener.updateProgress(0, 100, "Initializing db");
 
@@ -71,7 +74,7 @@ public class DuplicateScanner extends Thread
 		catch (PersistenceException e)
 		{
 			duplicateScannerListener.failed("Failed to initialize db");
-			return;
+			return false;
 		}
 
 		try
@@ -95,7 +98,6 @@ public class DuplicateScanner extends Thread
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
 			duplicateScannerListener.failed("Error occured - " + e.getMessage());
 		}
 		finally
@@ -106,6 +108,8 @@ public class DuplicateScanner extends Thread
 				filesDAO = null;
 			}
 		}
+
+		return false;
 	}
 
 	private void mapFiles(FilesDAO filesDAO)
