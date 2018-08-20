@@ -3,6 +3,7 @@ package co.il.nmh.compare.files.gui.components;
 import java.awt.Component;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
@@ -38,6 +39,8 @@ public class FilesTable extends EasyTable implements EasyTableComboBoxRender, Ea
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setRowSelectionAllowed(false);
 
+		setColumnMinWidth(NAME_COLUMN, 150);
+
 		initTable();
 
 		tableItemDeleteListeners = new HashSet<>();
@@ -48,7 +51,7 @@ public class FilesTable extends EasyTable implements EasyTableComboBoxRender, Ea
 		setComboColumn(NAME_COLUMN, this);
 		setComboColumn(LOCATION_COLUMN, this);
 
-		Set<String> buttons = new HashSet<>();
+		Set<String> buttons = new LinkedHashSet<>();
 		buttons.add(OPEN_ACTION);
 		buttons.add(DELETE_ACTION);
 
