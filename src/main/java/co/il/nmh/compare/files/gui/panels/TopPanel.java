@@ -99,16 +99,19 @@ public class TopPanel extends EasyPanel implements TableActionListener, TableIte
 
 		tableItems = new ArrayList<>();
 
-		for (List<CFile> files : duplicates.values())
+		if (null != duplicates)
 		{
-			TableItem tableItem = new TableItem();
-
-			for (CFile file : files)
+			for (List<CFile> files : duplicates.values())
 			{
-				tableItem.add(file.getName(), file.getLocation());
-			}
+				TableItem tableItem = new TableItem();
 
-			tableItems.add(tableItem);
+				for (CFile file : files)
+				{
+					tableItem.add(file.getName(), file.getLocation());
+				}
+
+				tableItems.add(tableItem);
+			}
 		}
 
 		populateTable(0);

@@ -67,14 +67,34 @@ public class DuplicateScanner extends EasyThread
 
 		FilesDAO filesDAO = null;
 
-		try
+		int initTries = 0;
+
+		while (null == filesDAO)
 		{
-			filesDAO = new FilesDAO();
-		}
-		catch (PersistenceException e)
-		{
-			duplicateScannerListener.failed("Failed to initialize db");
-			return false;
+			try
+			{
+				filesDAO = new FilesDAO();
+			}
+			catch (PersistenceException e)
+			{
+				if (initTries++ > 2)
+				{
+					duplicateScannerListener.failed("Failed to initialize db");
+					return false;
+				}
+
+				else
+				{
+					try
+					{
+						Thread.sleep(15);
+					}
+					catch (InterruptedException e1)
+					{
+						return false;
+					}
+				}
+			}
 		}
 
 		try
@@ -91,10 +111,10 @@ public class DuplicateScanner extends EasyThread
 				duplicates = filterDuplicateBySignature(filesDAO);
 			}
 
-			filesDAO.close();
-			filesDAO = null;
-
-			duplicateScannerListener.done(duplicates);
+			if (!isInterrupted())
+			{
+				duplicateScannerListener.done(duplicates);
+			}
 		}
 		catch (Exception e)
 		{

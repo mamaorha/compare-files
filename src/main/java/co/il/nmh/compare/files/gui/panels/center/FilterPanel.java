@@ -123,7 +123,6 @@ public class FilterPanel extends EasyPanel implements DirectoryChangedListener
 	{
 		checkboxFilterPanel.lockGUI(lock);
 		fileFilterPanel.lockGUI(lock);
-		scanBtn.setEnabled(!lock && isValidDirectory());
 	}
 
 	public void startScan()
