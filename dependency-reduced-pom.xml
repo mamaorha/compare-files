@@ -40,7 +40,7 @@
               <transformers>
                 <transformer>
                   <manifestEntries>
-                    <Main-Class>co.il.nmh.compare.files.CompareFIlesMain</Main-Class>
+                    <Main-Class>co.il.nmh.compare.files.CompareFilesMain</Main-Class>
                   </manifestEntries>
                 </transformer>
               </transformers>

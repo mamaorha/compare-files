@@ -85,10 +85,10 @@ public class GUI extends EasyFrame implements ScanListener, DuplicateScannerList
 	}
 
 	@Override
-	public void done(Map<String, List<CFile>> duplicates)
+	public void done(Map<String, List<CFile>> duplicates, long totalFilesScanned)
 	{
 		topPanel.setDuplicates(duplicates);
-		centerPanel.stopScan("done");
+		centerPanel.stopScan(String.format("done - scanned %s files", totalFilesScanned));
 	}
 
 	@Override

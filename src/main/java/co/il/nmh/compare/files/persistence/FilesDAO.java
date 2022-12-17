@@ -16,6 +16,7 @@ public class FilesDAO
 
 	protected String insertQuery;
 	protected String selectedDuplicateBySizeQuery;
+	protected String countQuery;
 
 	public FilesDAO()
 	{
@@ -31,6 +32,7 @@ public class FilesDAO
 	{
 		insertQuery = "insert into files (file, location, fileSize) values (?, ?, ?)";
 		selectedDuplicateBySizeQuery = "select x.* from files x join(select t.fileSize from files t group by t.fileSize having count(t.fileSize) > 1) y on y.fileSize = x.fileSize";
+		countQuery = "select count(1) from files";
 	}
 
 	public void insert(String fileName, String fileLocation, String fileSize)
@@ -76,6 +78,22 @@ public class FilesDAO
 			selectedDuplicateBySizePs.close();
 
 			return duplicateBySize;
+		}
+		catch (Exception e)
+		{
+			throw new PersistenceException(e);
+		}
+	}
+
+	public Long count() {
+		try
+		{
+			PreparedStatement countPs = h2Connection.getConnection().prepareStatement(countQuery);
+
+			try (ResultSet rs = countPs.executeQuery()) {
+				rs.next();
+				return rs.getLong(1);
+			}
 		}
 		catch (Exception e)
 		{

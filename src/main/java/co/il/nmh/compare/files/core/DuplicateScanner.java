@@ -113,7 +113,7 @@ public class DuplicateScanner extends EasyThread
 
 			if (!isInterrupted())
 			{
-				duplicateScannerListener.done(duplicates);
+				duplicateScannerListener.done(duplicates, filesDAO.count());
 			}
 		}
 		catch (Exception e)

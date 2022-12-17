@@ -15,7 +15,7 @@ public interface DuplicateScannerListener
 
 	void updateProgress(int current, int maximum, String status);
 
-	void done(Map<String, List<CFile>> duplicates);
+	void done(Map<String, List<CFile>> duplicates, long totalFilesScanned);
 
 	void failed(String failure);
 }
